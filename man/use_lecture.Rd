@@ -2,7 +2,7 @@
 % Please edit documentation in R/use_materials.R
 \name{use_lecture}
 \alias{use_lecture}
-\title{Copy a lecture activity template to a selected folder}
+\title{Copy a lecture folder to a selected folder}
 \usage{
 use_lecture(id, destdir = NULL, overwrite = FALSE, open = TRUE)
 }
@@ -11,13 +11,13 @@ use_lecture(id, destdir = NULL, overwrite = FALSE, open = TRUE)
 
 \item{destdir}{Destination directory. If \code{NULL}, students will be asked to choose a folder in RStudio.}
 
-\item{overwrite}{If \code{TRUE}, overwrite an existing file with the same name.}
+\item{overwrite}{If \code{TRUE}, overwrite an existing folder with the same name.}
 
-\item{open}{If \code{TRUE}, try to open the copied file in RStudio.}
+\item{open}{If \code{TRUE}, try to open the copied \code{.qmd} file in RStudio.}
 }
 \value{
-Invisibly returns the path to the copied file.
+Invisibly returns the path to the copied folder.
 }
 \description{
-Copy a lecture activity template to a selected folder
+Copy a lecture folder to a selected folder
 }
