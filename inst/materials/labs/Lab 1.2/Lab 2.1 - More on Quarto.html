@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.22">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Professor MacDonald">
+<meta name="dcterms.date" content="2026-03-26">
+
+<title>More Quarto Tips</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Lab 2.1 - More on Quarto_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab 2.1 - More on Quarto_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Lab 2.1 - More on Quarto_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Lab 2.1 - More on Quarto_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab 2.1 - More on Quarto_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Lab 2.1 - More on Quarto_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Lab 2.1 - More on Quarto_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab 2.1 - More on Quarto_files/libs/quarto-html/quarto-syntax-highlighting-7b4406b7675125bc2ba204020e191172.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Lab 2.1 - More on Quarto_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Lab 2.1 - More on Quarto_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Lab 2.1 - More on Quarto_files/libs/bootstrap/bootstrap-be9206a58a27969b3ea3001da8f26fef.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">More Quarto Tips</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Professor MacDonald </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 26, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>For this assignment, please create a new Quarto document in RStudio by selecing <code>File-&gt;New File-&gt;Quarto Document...</code> and name it whatever you wish. Save it to your hard drive and make sure the dataset <code>mcdonalds.csv</code> is in the same folder as this document.</p>
+<section id="quarto-document-structure" class="level2">
+<h2 class="anchored" data-anchor-id="quarto-document-structure">Quarto document structure</h2>
+<section id="header-information" class="level3">
+<h3 class="anchored" data-anchor-id="header-information">Header information</h3>
+<p>In each Quarto document, there is a YAML (Yet Another Markup Language) header section, denoted by the three <code>---</code> dashed lines followed by some text, followed by another three <code>---</code> dashed lines, that should look like the following:</p>
+<p><img src="YAML.png" class="img-fluid"></p>
+<p><strong>This section should always be at the top of the document.</strong> This section controls the overall format of the document and generally you won’t need to modify it except to add your name or the date. However, the list of options that you can modify can be seen <a href="https://quarto.org/docs/reference/formats/html.html">here</a> and some examples <a href="https://quarto.org/docs/get-started/authoring/rstudio.html">here</a>.</p>
+<blockquote class="blockquote">
+<p>Add a table of contents to your document via the YAML header. Also add yourself as an author to the document via the header. Render the document to verify both changes work.</p>
+</blockquote>
+</section>
+<section id="setup-code-chunk" class="level3">
+<h3 class="anchored" data-anchor-id="setup-code-chunk">Setup code chunk</h3>
+<p>Just below the YAML header is usually a setup code chunk where you load any libraries you plan to use (like <code>tidyverse</code>) and any datasets you intend to analyze. This code will be run first when the document renders. <strong>You only need to load libraries once in the document, not in each code chunk</strong>.</p>
+<blockquote class="blockquote">
+<p>Create a setup code chunk just below the YAML header. In this setup code chunk, load the <code>tidyverse</code> library and load the <code>mcdonalds.csv</code> dataset using the <code>mcdonalds &lt;- read.csv("mcdonalds.csv")</code> line of code. Render the document to make sure this works.</p>
+</blockquote>
+</section>
+<section id="headings" class="level3">
+<h3 class="anchored" data-anchor-id="headings">Headings</h3>
+<p>Choosing appropriate headings in your document are important to help organize your document and make it easier to read visually. You can select some text and set it to be Header 1 (the highest level header) and each increase in Header number (Header 2, 3, etc.) indicates a further subcategory, as shown from this menu:</p>
+<p><img src="Header.png" class="img-fluid"></p>
+<p>For our brief investigation today, we are going to examine:</p>
+<ul>
+<li>Investigation of sodium</li>
+<li>Describing sodium</li>
+<li>The distribution of sodium</li>
+<li>High sodium items</li>
+<li>Comparing sodium and calories</li>
+</ul>
+<blockquote class="blockquote">
+<p>Make a Header 1 that names this brief investigation and create appropriate Header 2 and Header 3 titles to match the structure of the investigation I have listed above. Render the document to check to make sure you can visually notice the changes.</p>
+</blockquote>
+</section>
+</section>
+<section id="code-chunk-options" class="level2">
+<h2 class="anchored" data-anchor-id="code-chunk-options">Code chunk options</h2>
+<section id="labeling" class="level3">
+<h3 class="anchored" data-anchor-id="labeling">Labeling</h3>
+<p>At the start of each code chunk, you should label each code chunk. <strong>Note: you will get an error message if two code chunks share a label. Each code chunk should have a unique label</strong>. Code chunk options start with the following text: <code>#|</code>. An example label would be: <code>#| label: question3-answer</code></p>
+<blockquote class="blockquote">
+<p>Add a label to your setup code chunk and render to verify it works</p>
+</blockquote>
+<p>Note that code chunks that produce a figure or table should have a special label. Figures should be labeled as <code>#| label: fig-somename</code> and tables should be labeled with <code>#| label: tbl-somename</code>. This allows you to add captions and other control statements to the table or graph. An example of some of the things you can control:</p>
+<p><img src="Figure%20labels.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Create a code chunk under the distribution of sodium section and make a histogram of sodium. Label the chunk appropriately and give the graph a caption using the <code>fig-cap</code> option. Render your document to verify this has worked.</p>
+</blockquote>
+</section>
+<section id="choosing-to-show-what-will-display" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-to-show-what-will-display">Choosing to show what will display</h3>
+<p>When you click the Render button a document will be generated that includes both content and the output of embedded code. If no options are selected, both the code you have written and the executed code will be displayed. In your rendered histogram of sodium, you should have already noticed this - your histogram code will display directly above the histogram.</p>
+<p>To prevent the code from being displayed after you render a document, you can use the option <code>#| echo: false</code>.</p>
+<blockquote class="blockquote">
+<p>Add <code>#| echo: false</code> to your sodium histogram code chunk and render the document. Verify that the code is now hidden.</p>
+</blockquote>
+<p>However, you will probably notice that both the setup code chunk and the sodium histogram are printing a bunch of other text that are either informational or warnings about various things. These texts may help you debug when your code is not working but should not be displayed on any of your submitted homework documents. To suppress the printing of warning, you can instead specify <code>#| warning: false</code>. Similarly, some functions will print some information about the function that you will want to hide when rendering the document. You can control this with <code>#| message: false</code>.</p>
+<p>To prevent anything from the code chunk being printed, you can specify <code>#| message: false</code>. Note that this will prevent any results from the code from being printed also - this option is best used in the setup code chunk.</p>
+<blockquote class="blockquote">
+<p>Add <code>#| warning: false</code> and <code>#| information: false</code> to the sodium histogram code chunk and <code>#| include: false</code> to the setup code chunk. Render the document to verify that the nuisance text is no longer printing.</p>
+</blockquote>
+</section>
+</section>
+<section id="making-tables" class="level2">
+<h2 class="anchored" data-anchor-id="making-tables">Making tables</h2>
+<section id="inserting-a-basic-table" class="level3">
+<h3 class="anchored" data-anchor-id="inserting-a-basic-table">Inserting a basic table</h3>
+<p>You can insert a table in the Visual editor mode using the following menu option:</p>
+<p><img src="Table.png" class="img-fluid"></p>
+<p><img src="Table%20options.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Make a table using the Table insert command with two rows and three columns in the Comparing the variables <code>Sodium</code> and <code>Calories</code> section of the document. Caption the table as <code>Summary comparison between sodium and calories</code></p>
+</blockquote>
+<p>These tables are a good option for when you are making simple table with information of your own produced outside of RStudio or you want to include very simple calculations. The way you can add very simple calculations is with in-line code. Within a cell of the table, you can add some simple code by typing: <code>`r</code> <code>1+1`</code> (note: type this directly, don’t copy and paste from this document or else you will get an error). You can replace <code>1+1</code> with things like <code>mean(mtcars$mpg)</code> (note: make sure you still have the <code>`r</code> part at the beginning) to perform more useful calculations.</p>
+<blockquote class="blockquote">
+<p>In the table you have created, add code to calculate the mean of the two variables in the first row and the standard deviation of both variables in the second row. Render the document to verify it worked.</p>
+</blockquote>
+</section>
+<section id="making-a-table-programmatically" class="level3">
+<h3 class="anchored" data-anchor-id="making-a-table-programmatically">Making a table programmatically</h3>
+<p>For more complex tables, you will want to make the tables programmatically rather than by hand. The easiest and best way to do this is with the <code>kable()</code> function (documentation <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">here</a>). You can pass any data frame (the standard way a dataset is stored) to <code>kable()</code> to produce a good quality table. A simple example would be <code>kable(mtcars)</code>. To use the <code>kable()</code> function you need to have the <code>knitr</code> library loaded.</p>
+<blockquote class="blockquote">
+<p>Add the command to load the <code>knitr</code> library to your setup code chunk. Now filter your dataset to only show the highest sodium items (greater than 1000) and make a table using <code>kable()</code> in the High sodium items section. Remember the special labels that table code blocks must have. Render the document to verify this worked.</p>
+</blockquote>
+<p><code>kable()</code> can be extended by using the <code>kableExtra</code> package (documentation <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">here</a>). Install the <code>kableExtra</code> package, load it in your setup code block. You can add on <code>kableExtra()</code> elements by doing <code>&lt;table name&gt; %&gt;% kable_styling()</code>.</p>
+<blockquote class="blockquote">
+<p>Now use some aspects of <code>kableExtra()</code> to make your table more pretty. Render the document to verify it works.</p>
+</blockquote>
+</section>
+</section>
+<section id="additional-investigations" class="level2">
+<h2 class="anchored" data-anchor-id="additional-investigations">Additional investigations</h2>
+<p>If you’ve made it this far, good job! Keep working on your document by adding in additional sections and code blocks to investigate various properties of the <code>mcdonalds</code> dataset until the lab time finishes.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

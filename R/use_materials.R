@@ -145,6 +145,8 @@ get_material_folder_name <- function(id, type) {
 
     return(paste0("Lecture ", id_clean))
   }
+
+  stop("Unknown material type.", call. = FALSE)
 }
 
 
@@ -156,7 +158,10 @@ choose_destination_folder <- function() {
     )
 
     if (is.null(destdir) || identical(destdir, "")) {
-      stop("No folder was selected. Please run the function again and choose a folder.", call. = FALSE)
+      stop(
+        "No folder was selected. Please run the function again and choose a folder.",
+        call. = FALSE
+      )
     }
 
     return(destdir)
@@ -175,36 +180,54 @@ copy_directory <- function(source_folder, destination_folder) {
 
   dir.create(destination_folder, recursive = TRUE, showWarnings = FALSE)
 
-  all_files <- list.files(
+  all_paths <- list.files(
     source_folder,
     all.files = TRUE,
     no.. = TRUE,
     recursive = TRUE,
-    full.names = TRUE
+    full.names = TRUE,
+    include.dirs = TRUE
   )
 
-  if (length(all_files) == 0) {
+  if (length(all_paths) == 0) {
     return(invisible(destination_folder))
   }
 
-  relative_paths <- substring(all_files, nchar(source_folder) + 2)
+  relative_paths <- substring(all_paths, nchar(source_folder) + 2)
   destination_paths <- file.path(destination_folder, relative_paths)
 
-  dirs_to_create <- unique(dirname(destination_paths))
-  dir.create(dirs_to_create, recursive = TRUE, showWarnings = FALSE)
+  file_info <- file.info(all_paths)
 
-  file_info <- file.info(all_files)
-  files_only <- all_files[!file_info$isdir]
+  dirs_only <- destination_paths[file_info$isdir]
+  files_only <- all_paths[!file_info$isdir]
   destination_files_only <- destination_paths[!file_info$isdir]
 
-  copied <- file.copy(
-    from = files_only,
-    to = destination_files_only,
-    overwrite = TRUE
-  )
+  # Create subfolders one by one.
+  if (length(dirs_only) > 0) {
+    for (dir_path in dirs_only) {
+      dir.create(dir_path, recursive = TRUE, showWarnings = FALSE)
+    }
+  }
 
-  if (any(!copied)) {
-    stop("Some files could not be copied.", call. = FALSE)
+  # Create parent folders for files one by one.
+  parent_dirs <- unique(dirname(destination_files_only))
+
+  if (length(parent_dirs) > 0) {
+    for (dir_path in parent_dirs) {
+      dir.create(dir_path, recursive = TRUE, showWarnings = FALSE)
+    }
+  }
+
+  if (length(files_only) > 0) {
+    copied <- file.copy(
+      from = files_only,
+      to = destination_files_only,
+      overwrite = TRUE
+    )
+
+    if (any(!copied)) {
+      stop("Some files could not be copied.", call. = FALSE)
+    }
   }
 
   invisible(destination_folder)
