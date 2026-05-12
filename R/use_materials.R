@@ -40,7 +40,7 @@ use_lecture <- function(id, destdir = NULL, overwrite = FALSE, open = TRUE) {
 
 #' Copy an activity folder to a selected folder
 #'
-#' @param id Activity ID, such as `"1.2"` or `"3.4"`.
+#' @param id Activity ID, such as `"1.2"`, `"3.4"`, `"final"`, or `"final class"`.
 #' @param destdir Destination directory. If `NULL`, students will be asked to choose a folder in RStudio.
 #' @param overwrite If `TRUE`, overwrite an existing folder with the same name.
 #' @param open If `TRUE`, try to open the copied `.qmd` file in RStudio.
@@ -78,12 +78,7 @@ copy_material_folder <- function(id, type, destdir = NULL, overwrite = FALSE, op
     activity = "activities"
   )
 
-  folder_name <- switch(
-    type,
-    lab = paste0("Lab ", id),
-    lecture = paste0("Lecture ", id),
-    activity = paste0("Lecture ", id)
-  )
+  folder_name <- get_material_folder_name(id = id, type = type)
 
   source_folder <- system.file(
     "materials",
@@ -128,6 +123,28 @@ copy_material_folder <- function(id, type, destdir = NULL, overwrite = FALSE, op
   message("Copied material folder to: ", normalizePath(destination_folder, mustWork = FALSE))
 
   invisible(normalizePath(destination_folder, mustWork = FALSE))
+}
+
+
+get_material_folder_name <- function(id, type) {
+  id_clean <- trimws(as.character(id))
+  id_lower <- tolower(id_clean)
+
+  if (type == "lab") {
+    return(paste0("Lab ", id_clean))
+  }
+
+  if (type == "lecture") {
+    return(paste0("Lecture ", id_clean))
+  }
+
+  if (type == "activity") {
+    if (id_lower %in% c("final", "final class", "final-class")) {
+      return("Final class")
+    }
+
+    return(paste0("Lecture ", id_clean))
+  }
 }
 
 

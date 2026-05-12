@@ -7,7 +7,7 @@
 use_activity(id, destdir = NULL, overwrite = FALSE, open = TRUE)
 }
 \arguments{
-\item{id}{Activity ID, such as \code{"1.2"} or \code{"3.4"}.}
+\item{id}{Activity ID, such as \code{"1.2"}, \code{"3.4"}, \code{"final"}, or \code{"final class"}.}
 
 \item{destdir}{Destination directory. If \code{NULL}, students will be asked to choose a folder in RStudio.}
 
