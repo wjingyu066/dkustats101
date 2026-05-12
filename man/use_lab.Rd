@@ -2,22 +2,22 @@
 % Please edit documentation in R/use_materials.R
 \name{use_lab}
 \alias{use_lab}
-\title{Copy a lab template into the current working directory}
+\title{Copy a lab template to a selected folder}
 \usage{
-use_lab(id, destdir = getwd(), overwrite = FALSE, open = TRUE)
+use_lab(id, destdir = NULL, overwrite = FALSE, open = TRUE)
 }
 \arguments{
 \item{id}{Lab ID, such as \code{"1.2"} or \code{"2.1"}.}
 
-\item{destdir}{Destination directory. Defaults to the current working directory.}
+\item{destdir}{Destination directory. If \code{NULL}, students will be asked to choose a folder in RStudio.}
 
 \item{overwrite}{If \code{TRUE}, overwrite an existing file with the same name.}
 
-\item{open}{If \code{TRUE}, try to open the file in RStudio.}
+\item{open}{If \code{TRUE}, try to open the copied file in RStudio.}
 }
 \value{
 Invisibly returns the path to the copied file.
 }
 \description{
-Copy a lab template into the current working directory
+Copy a lab template to a selected folder
 }

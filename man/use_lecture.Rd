@@ -2,22 +2,22 @@
 % Please edit documentation in R/use_materials.R
 \name{use_lecture}
 \alias{use_lecture}
-\title{Copy a lecture template into the current working directory}
+\title{Copy a lecture activity template to a selected folder}
 \usage{
-use_lecture(id, destdir = getwd(), overwrite = FALSE, open = TRUE)
+use_lecture(id, destdir = NULL, overwrite = FALSE, open = TRUE)
 }
 \arguments{
 \item{id}{Lecture ID, such as \code{"3.4"} or \code{"4.1"}.}
 
-\item{destdir}{Destination directory. Defaults to the current working directory.}
+\item{destdir}{Destination directory. If \code{NULL}, students will be asked to choose a folder in RStudio.}
 
 \item{overwrite}{If \code{TRUE}, overwrite an existing file with the same name.}
 
-\item{open}{If \code{TRUE}, try to open the file in RStudio.}
+\item{open}{If \code{TRUE}, try to open the copied file in RStudio.}
 }
 \value{
 Invisibly returns the path to the copied file.
 }
 \description{
-Copy a lecture template into the current working directory
+Copy a lecture activity template to a selected folder
 }
