@@ -1,0 +1,15 @@
+Package: dkustats101
+Title: Course Materials and Tools for DKU STATS 101
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Jingyu", "Wang", email = "wjingyu@umich.edu", role = c("aut", "cre")),
+    person("Andrew", "MacDonald", role = c("aut", "ctb"))
+    )
+Description: Provides lab templates, class activity templates, datasets, and helper functions for STATS 101.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 8.0.0
+lazyData: true
+Suggests:
+  rstudioapi

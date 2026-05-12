@@ -1,0 +1,13 @@
+---
+title: "Lecture 3.4"
+format: html
+editor: visual
+---
+
+## Lecture 3.4
+
+This is a test lecture activity template.
+
+```{r}
+summary(c(1, 2, 3, 4, 5))
+```
