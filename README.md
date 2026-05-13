@@ -6,7 +6,7 @@ Students can use this package to copy lab folders, lecture folders, and activity
 
 ## Installation
 
-Run the following code once:
+Run the following code once in Console:
 
 ``` r
 install.packages("remotes")
