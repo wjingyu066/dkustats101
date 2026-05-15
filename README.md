@@ -1,12 +1,10 @@
 # dkustats101
 
-This package provides course material templates and helper functions for DKU STATS 101.
-
-Students can use this package to copy lab folders, lecture folders, and activity folders to their own computer, then work on the copied files directly.
+This package provides course material templates and helper functions for DKU STATS 101. Students can use this package to copy lab folders, lecture folders, and activity folders to their own computer, then work on the copied files directly.
 
 ## Installation
 
-Run the following code once in Console:
+Run the following code once in Console to install the pacakges:
 
 ``` r
 install.packages("remotes")
@@ -40,9 +38,7 @@ For example, to copy the folder for Lab 1.2:
 use_lab("1.2")
 ```
 
-This will ask you to choose a folder on your computer. The full lab folder will be copied there.
-
-If you are using RStudio, the `.qmd` file should open automatically after copying.
+This will ask you to choose a folder on your computer. The full lab folder will be copied there. If you are using RStudio, the `.qmd` file should open automatically after copying.
 
 ## Copy a lecture folder
 
