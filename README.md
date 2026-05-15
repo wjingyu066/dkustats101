@@ -4,7 +4,7 @@ This package provides course material templates and helper functions for DKU STA
 
 ## Installation
 
-Run the following code once in Console to install the pacakges:
+Run the following code once in Console to install the pacakge:
 
 ``` r
 install.packages("remotes")
