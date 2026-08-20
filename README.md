@@ -9,7 +9,7 @@ Run the following code once in Console to install the pacakge:
 ``` r
 install.packages("remotes")
 install.packages("rstudioapi")
-remotes::install_git( "https://github.com/wjingyu066/dkustats101.git", upgrade = "never" )
+remotes::install_github("wjingyu066/dkustats101", upgrade = "never")
 ```
 
 ## Updating the package
@@ -17,7 +17,7 @@ remotes::install_git( "https://github.com/wjingyu066/dkustats101.git", upgrade =
 If the course materials have been updated, reinstall the package with:
 
 ``` r
-remotes::install_git( "https://github.com/wjingyu066/dkustats101.git", force = TRUE, upgrade = "never" )
+remotes::install_github("wjingyu066/dkustats101", force = TRUE, upgrade = "never")
 ```
 
 After updating the package, restart R before loading it again.
@@ -121,10 +121,7 @@ and then rerun your command.
 First, make sure you are connected to the internet and try the installation command again:
 
 ```         
-remotes::install_git(
-  "https://github.com/wjingyu066/dkustats101.git",
-  upgrade = "never"
-)
+remotes::install_github("wjingyu066/dkustats101",upgrade = "never")
 ```
 
 If the installation is slow or fails because of network issues, try again on a different network or ask for help during class or office hours.
