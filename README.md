@@ -1,3 +1,7 @@
+---
+---
+---
+
 # dkustats101
 
 This package provides course material templates and helper functions for DKU STATS 101. Students can use this package to copy lab folders, lecture folders, and activity folders to their own computer, then work on the copied files directly.
@@ -9,7 +13,7 @@ Run the following code once in Console to install the pacakge:
 ``` r
 install.packages("remotes")
 install.packages("rstudioapi")
-remotes::install_github("wjingyu066/dkustats101")
+remotes::install_git( "https://github.com/wjingyu066/dkustats101.git", upgrade = "never" )
 ```
 
 ## Updating the package
@@ -17,8 +21,14 @@ remotes::install_github("wjingyu066/dkustats101")
 If the course materials have been updated, reinstall the package with:
 
 ``` r
-remotes::install_github("wjingyu066/dkustats101", force = TRUE)
+remotes::install_git( "https://github.com/wjingyu066/dkustats101.git", force = TRUE, upgrade = "never" )
 ```
+
+After updating the package, restart R before loading it again.
+
+In RStudio, you can restart R by going to:
+
+**Session → Restart R**
 
 This updates the package only. It will not delete or change any files you have already copied to your own computer.
 
@@ -96,12 +106,33 @@ Then choose where to save the folder, open the copied `.qmd` file, and start wor
 
 ## Troubleshooting
 
-If installation from GitHub does not work, first check that you typed the repository name correctly:
+### The package was updated, but I still see the old version
 
-``` r
-remotes::install_github("wjingyu066/dkustats101")
+If you reinstalled the package while it was already loaded in R, restart R and then load the package again:
+
+```         
+library(dkustats101)
 ```
 
-If you are using RStudio and the file does not open automatically, check the folder you selected. The copied course folder should still be there.
+In RStudio, use:
 
-If GitHub installation is slow or fails because of network issues, please try again later or ask for help during class or office hours.
+**Session → Restart R**
+
+and then rerun your command.
+
+### Installation from GitHub does not work
+
+First, make sure you are connected to the internet and try the installation command again:
+
+```         
+remotes::install_git(
+  "https://github.com/wjingyu066/dkustats101.git",
+  upgrade = "never"
+)
+```
+
+If the installation is slow or fails because of network issues, try again on a different network or ask for help during class or office hours.
+
+### The copied file does not open automatically
+
+If you are using RStudio and the `.qmd` file does not open automatically, check the folder you selected. The copied course folder and its files should still be there.
