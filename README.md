@@ -1,7 +1,3 @@
----
----
----
-
 # dkustats101
 
 This package provides course material templates and helper functions for DKU STATS 101. Students can use this package to copy lab folders, lecture folders, and activity folders to their own computer, then work on the copied files directly.
