@@ -15,7 +15,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-For this lab, first load the `dkustats101` package in the Console and run:
+For this lab, first load the `dkustats101` package in the Console and copy the Lab 1.2 materials:
 
 ``` r
 library(dkustats101)
@@ -23,9 +23,7 @@ library(dkustats101)
 use_lab("1.2")
 ```
 
-Choose a location on your computer to save the lab folder. The folder contains the dataset and other files needed for this assignment.
-
-Next, create a new Quarto document in RStudio by selecting `File -> New File -> Quarto Document...`. Give your document a clear and informative name so that you can find it later, and save it inside the Lab 1.2 folder you just copied.
+Next, create a new Quarto document in RStudio by selecting `File -> New File -> Quarto Document...`. Give your document a clear and informative name, and save it inside your Lab 1.2 folder.
 
 ## Quarto document structure
 
