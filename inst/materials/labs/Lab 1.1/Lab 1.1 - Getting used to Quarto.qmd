@@ -14,6 +14,16 @@ format:
 library(tidyverse)
 ```
 
+Before getting started, load the `dkustats101` package in the Console and copy the Lab 1.1 materials:
+
+```r
+library(dkustats101)
+
+use_lab("1.1")
+```
+
+If you have not yet installed or updated the `dkustats101` package, please follow the instructions posted on Teams.
+
 # Quarto introduction
 
 Quarto is a document container that allows you to mix text and code to produce reproducible (see [here](https://www.displayr.com/what-is-reproducible-research/) for why reproducibility is important) results and auto-generate high quality document.
