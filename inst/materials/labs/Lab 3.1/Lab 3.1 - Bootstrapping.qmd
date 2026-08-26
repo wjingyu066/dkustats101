@@ -1,0 +1,96 @@
+---
+title: "Lab 3.1 - Bootstrapping"
+author: "Student"
+date: "09/23/2026"
+output:
+  html_document:
+    toc: true
+format: 
+  html:
+    embed-resources: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Load your dataset and place your libraries here
+library(tidyverse)
+library(broom)
+library(knitr)
+
+seoul.bicycle <- read.csv("seoul.bicycle.data.csv")
+```
+
+![](seoulbicycle.jpg){width="100%" fig-align="center"}
+
+# Creating a bootstrap simulation
+
+For this assignment, we will again be using data from the Seoul bicycle sharing system. The dataset contains daily bicycle rental and weather information. In particular, we will use these data to create and compare confidence intervals for different features of the dataset.
+
+> You can find the variable definitions [here](https://www.kaggle.com/datasets/joebeachcapital/seoul-bike-sharing).
+
+## Expectations
+
+1.  Before starting, write a sentence or two about what you expect the 95% confidence intervals for `Rental.Count` (number of bicycles rented that day) and `Temperature.C.` to look like.
+
+## Setup
+
+2.  Install the `infer` package, and then load it into R. You can find the documentation [here](https://infer.tidymodels.org/reference/rep_sample_n.html#examples).
+
+3.  Review the basic code process here: [here](https://moderndive.com/8-confidence-intervals.html#resampling-simulation)
+
+## Create a sample
+
+4.  Make a subset of the data that is a random sample of size 50 using the following command:
+
+```         
+seoul.bicycles.sample <- seoul.bicycles %>% 
+  slice_sample(n = 50, replace = TRUE)
+```
+
+## Classical confidence intervals
+
+5.  Choose either `Rental.Count` or `Temperature.C.`. Check the conditions needed to construct a confidence interval for the mean, and then calculate a 95% confidence interval by hand using your sample of 50 observations.
+
+6.  Compare your confidence interval with the mean of that variable in the full Seoul bicycle dataset. Does your confidence interval contain the true population mean? How close is your sample mean to the population mean?
+
+## Bootstrapping
+
+7.  Now use bootstrapping to create a sampling distribution of sample means. Start with your sample of 50 observations from Step 4. Then repeatedly draw new samples of size 50 with replacement from that sample.
+
+Use the following code to generate 10,000 bootstrap samples:
+
+> Note: **VERY IMPORTANT**: Use your sample of size 50, and then bootstrap from THAT sample, not from the full dataset.
+
+```         
+virtual_resamples <- seoul.bicycles.sample %>% 
+  rep_sample_n(size = 50, replace = TRUE, reps = 10000)
+```
+
+Next, calculate the mean of your chosen variable for each bootstrap sample. Replace `<variable you selected>` with the quantitative variable you chose:
+
+```         
+virtual_resampled_means <- virtual_resamples %>% 
+  group_by(replicate) %>% 
+  summarize(mean_year = mean(<variable you selected>))
+```
+
+You now have a bootstrap sampling distribution containing 10,000 sample means.
+
+> **Remember**: the bootstrap sample size should be the same as the size of your original sample. Since your original sample contains 50 observations, each bootstrap sample should also contain 50 observations.
+
+8.  Create a 95% confidence interval from your bootstrap sampling distribution using the `quantile()` function.
+
+In particular, find the 0.025 and 0.975 quantiles of your bootstrap sample means. These give the lower and upper bounds of the middle 95% of the bootstrap distribution.
+
+> Hint: You can find documentation for the `quantile()` function by typing `?quantile` in the Console window.
+
+9.  Compare the bootstrap confidence interval you generated to the confidence interval calculated using the classical method. How close are the two intervals? Do the differences surprise you?
+
+10. Think carefully about how the classical confidence interval and the bootstrap confidence interval are constructed. What assumptions does each method rely on, and how are those assumptions different?
+
+### If you have extra time
+
+-   Repeat the analysis using another quantitative variable from the dataset.
+-   If you still have extra time, try the alternative workflow described [here](https://moderndive.com/8-confidence-intervals.html#infer-workflow).

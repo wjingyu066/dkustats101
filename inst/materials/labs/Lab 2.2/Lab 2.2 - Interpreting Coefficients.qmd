@@ -1,0 +1,90 @@
+---
+title: "Lab 2.2 - Interpreting coefficients"
+author: "Student"
+date: "09/16/2026"
+output:
+  html_document:
+    toc: true
+format: 
+  html:
+    embed-resources: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Load your dataset and place your libraries here
+```
+
+![](seoulbicycle.jpg)
+
+# Creating a multivariate model
+
+For this assignment, we will use data from the Seoul public bicycle sharing system. Each observation represents a day in the dataset and includes information about bicycle rentals and weather conditions.
+
+Your goal is to build a multivariate model to explain variation in `Rental.Count` using variables in the dataset.
+
+> Create a model with `Rental.Count` as the response variable and at least 2 quantitative variables as predictor variables. You can find descriptions of the variables [here](https://www.kaggle.com/datasets/joebeachcapital/seoul-bike-sharing).
+
+## Forming expectations
+
+1.  Before fitting your model, write a sentence or two describing what you expect the relationship between each predictor variable and `Rental.Count` to look like. Consider both the direction (positive or negative) and the strength (weak, moderate, or strong) of each relationship.
+
+## Checking model fit
+
+2.  Fit your model and examine the output from the `summary()` command. Does the model appear to fit the data reasonably well? Explain your reasoning.
+
+3.  Make a histogram of the residuals and a scatterplot of the residuals versus the fitted (predicted) values. What do these plots tell you about the fit of your model? Does a linear model seem appropriate?
+
+## Revising the model
+
+4.  If your model does not appear to fit the data well, revise it using what you have learned so far. You may consider changing your predictor variables or modifying the model specification. If you reach 30 minutes after the start of lab, move on with your current model so that you have enough time to complete the second half of the lab.
+
+# Interpreting the coefficients
+
+## Before we begin
+
+1.  Identify the units of the response variable and each predictor variable in your model.
+
+2.  Create a table showing the five-number summary (minimum, Q1, median, Q3, and maximum) for the response variable and each predictor variable. Use these values to describe the range of values that are typical in the dataset.
+
+3.  Consider the range of values observed for your predictor variables. Over what ranges would predictions from your model be reasonable? When might the model be unreliable or inappropriate? Give an example of an observation that your model may not predict well.
+
+## Interpreting the coefficients
+
+3.  Interpret the intercept. Does it have meaning in this case?
+
+4.  Interpret a one-unit increase in each predictor variable, holding the other predictor variables constant. Do you think the change in the response variable is large or small? Why?
+
+5.  Make a table showing the predicted value ($\hat{y}$) of the response variable when each predictor variable is set to its Q1, mean, and Q3 value. Hold the other predictor variable(s) at their mean.
+
+    | Predictor varied | Predicted response when $x_i$ = Q1 | Predicted response when $x_i$ = mean | Predicted response when $x_i$ = Q3 |
+    |-------------------|------------------|------------------|------------------|
+    | $x_1$ |  |  |  |
+    | $x_2$ |  |  |  |
+    | $x_3$ |  |  |  |
+
+    : Coefficient magnitude examination
+
+6.  Does a change from the Q1 value to the Q3 of the predictor variable result in a large change (in your opinion) in the predicted value ($\hat{y}$) of the response variable?
+
+7.  Another way to view the same information is with a marginal effects plot. We can use the `sjPlot` library and the `plot_model()` function to see how the predicted response ($\hat{y}$) changes as a predictor variable $x_i$ changes across its range, while holding the other predictor variables at their mean values. You can view the documentation [here](https://cran.r-project.org/web/packages/sjPlot/vignettes/plot_marginal_effects.html).
+
+A sample command is shown below:
+
+```         
+library(sjPlot)
+
+mod <- lm(data=mtcars, mpg ~ wt + hp)
+
+plot_model(mod, type="pred", terms="wt")
+```
+
+-   Create marginal effects plots of your predictor variables and interpret their meaning. Compare your output to the table you created in Steps 5 & 6.
+
+## Making a decision
+
+8.  Decide whether each of your predictor variables has a substantively significant relationship with the response variable.
+
+9.  If you have time, try a more advanced model and repeat the steps above.

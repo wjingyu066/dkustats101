@@ -1,0 +1,128 @@
+---
+title: "Lab 2.1 - Working with regressions"
+author: "Professor MacDonald"
+date: "09/09/2026"
+output:
+  html_document:
+    toc: true
+format: 
+  html:
+    embed-resources: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Load your dataset and place your libraries here
+```
+
+# Regression and `dplyr`
+
+## Running regressions
+
+In R, we can run a regression using the `lm()` function. A general example looks like this:
+
+```         
+reg=lm(Y~X1+X2+X3,data=dat)
+summary(reg)
+```
+
+In this example, `Y` is the response variable, and `X1`, `X2`, and `X3` are the predictor variables.
+
+The `summary()` command provides the regression results. However, the output from `summary()` can sometimes be difficult to use when we want to print, organize, or manipulate our results.
+
+The `broom` package provides functions that make regression output easier to work with. First, we create the regression using `lm()` as usual:
+
+``` r
+mtReg <- lm(mpg ~ hp, data = mtcars)
+```
+
+We can then use `tidy()` from the `broom` package:
+
+``` r
+tidy(mtReg)
+```
+
+The `tidy()` function returns the regression results as a data frame, making the results easier to read and work with.
+
+We can also use `glance()` to view information about the overall model fit:
+
+```         
+glance(mtReg)
+```
+
+Don't worry about all of the terms in the output yet. For now, focus on $R^2$.
+
+> Create a regression using the `mtcars` dataset and a different predictor variable. Tidy the results and produce the model fit statistics, then interpret your results.
+
+1.  Based on simply the results, how good of a fit do you think your model is?
+2.  For a one unit change in $x$, how much change is there in $y$? Do you estimate that to be a lot or a little?
+3.  How can you interpret the intercept? Is the intercept meaningful?
+
+## Getting the residuals
+
+To get the residuals from a dataset, we need to use the `augment()` command from the `broom` library.
+
+```         
+mt.cars.resids <- augment(mtReg, mtcars)
+```
+
+If you inspect this new, augmented dataset, you will notice that several new columns have been added. The two we are most interested in are `.fitted` and `.resid`:
+
+1.  `.fitted` contains the predicted values of the response variable.
+2.  `.resid` contains the residuals, or the difference between the observed and predicted values.
+
+We can use the `.resid` column to make a histogram of the residuals.
+
+> Make a histogram of your residuals
+
+1.  What are we hoping to see in a histogram of the residuals?
+2.  What do you observe in your residual histogram? Are there any problems?
+
+We can also make a plot of the residuals vs. fitted values. This tells us, for any given predicted value of $y$ ($\hat{y}$), how much we "missed" the prediction by. Ideally, the residuals should be scattered around $0$ without a clear pattern. Systematic patterns may indicate possible non-linearity, outliers, or a thickening plot.
+
+> Make a scatterplot of your residuals vs. predicted (predicted on $x$ axis). Draw a horizontal line at the $0$ value for the $y$ axis.
+
+1.  How does your plot look? Do you see any potential problems?
+2.  Interpret your overall model fit based on the residual plots
+
+## Nicely printing your regression results
+
+You can use `kable()` to create a regression table from the results of the `tidy()` command, but we can make a more polished table. There are several packages that can create nicely formatted regression tables. One useful option is `modelsummary` (details can be found [here](https://vincentarelbundock.github.io/modelsummary/articles/modelsummary.html)).
+
+You can use it as follows:
+
+```         
+library(modelsummary)
+library(kableExtra)
+
+modelsummary(mtReg)
+```
+
+You can also display several models in the same table:
+
+```         
+mtReg.cyl <- lm(mpg~cyl, data=mtcars)
+
+models <- list(
+  "Horsepower" = mtReg,
+  "Cylinders" = mtReg.cyl
+)
+
+modelsummary(models)
+```
+
+> Create a nicely formatted table of your regression results. Rename the predictor variable in the table to something human-readable using the `coef_rename` argument.
+
+# Going deeper
+
+Using the provided `china-aqi.csv` file:
+
+1.  Choose a predictor variable and a response variable.
+2.  Make a scatterplot of the relationship and add a smoother. Does the relationship appear to be a good fit?
+3.  Generate the regression results. Interpret your regression coefficients.
+4.  Check the residuals. Do they confirm your visual inspection from the scatterplot? Why or why not?
+5.  Create a high-quality table based on your regression results using the `modelsummary()` command.
+
+If you have time, repeat the analysis using another predictor variable with the same response variable, and add both models to your `modelsummary()` table.
