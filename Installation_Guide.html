@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -2197,84 +2162,98 @@ vertical-align: -.125em;
 
 <section id="dkustats101" class="level1">
 <h1>dkustats101</h1>
-<p>This package provides course material templates and helper functions for DKU STATS 101. Students can use this package to copy lab folders, lecture folders, and activity folders to their own computer, then work on the copied files directly.</p>
+<p>This package provides course materials and helper functions for DKU STATS 101. Students can use this package to copy lab and activity folders to their own computer and work on the copied files directly.</p>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Run the following code once in Console to install the pacakge:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;rstudioapi&quot;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;wjingyu066/dkustats101&quot;</span>, <span class="at">upgrade =</span> <span class="st">&quot;never&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="step-1-install-rstudioapi" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-install-rstudioapi">Step 1: Install rstudioapi</h3>
+<p>Open RStudio and run the following code in the Console:</p>
+<pre><code>install.packages(&quot;rstudioapi&quot;)</code></pre>
+<p>You only need to do this once.</p>
+</section>
+<section id="step-2-download-the-course-package" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-download-the-course-package">Step 2: Download the course package</h3>
+<p>Download the latest <code>dkustats101</code> <code>.tar.gz</code> file from Teams and save it to your computer.</p>
+<p><strong>Do not unzip the file.</strong></p>
+</section>
+<section id="step-3-install-the-course-package" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-install-the-course-package">Step 3: Install the course package</h3>
+<p>In RStudio:</p>
+<ol type="1">
+<li><p>Go to <strong>Tools → Install Packages…</strong></p></li>
+<li><p>Under <strong>Install from</strong>, select <strong>Package Archive File (.zip; .tar.gz)</strong>.</p></li>
+<li><p>Click <strong>Browse</strong> and select the <code>.tar.gz</code> file you downloaded from Teams.</p></li>
+<li><p>Click <strong>Install</strong>.</p></li>
+</ol>
+<p>Once installation is complete, run the following code in the Console:</p>
+<pre><code>library(dkustats101)</code></pre>
+</section>
 </section>
 <section id="updating-the-package" class="level2">
 <h2 class="anchored" data-anchor-id="updating-the-package">Updating the package</h2>
-<p>If the course materials have been updated, reinstall the package with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;wjingyu066/dkustats101&quot;</span>, <span class="at">force =</span> <span class="cn">TRUE</span>, <span class="at">upgrade =</span> <span class="st">&quot;never&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>After updating the package, restart R before loading it again.</p>
-<p>In RStudio, you can restart R by going to:</p>
+<p>If the course materials have been updated, download the latest <code>.tar.gz</code> file from Teams.</p>
+<p>First, restart R in RStudio by going to:</p>
 <p><strong>Session → Restart R</strong></p>
-<p>This updates the package only. It will not delete or change any files you have already copied to your own computer.</p>
+<p>Then follow <strong>Step 3</strong> in the Installation section to install the updated package.</p>
+<p>You do not need to reinstall <code>rstudioapi</code>.</p>
+<p>Updating the package will not delete or change any files you have already copied to your computer.</p>
 </section>
 <section id="load-the-package" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-package">Load the package</h2>
 <p>Before using the course materials, load the package:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dkustats101)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>library(dkustats101)</code></pre>
 </section>
 <section id="copy-a-lab-folder" class="level2">
 <h2 class="anchored" data-anchor-id="copy-a-lab-folder">Copy a lab folder</h2>
 <p>For example, to copy the folder for Lab 1.2:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_lab</span>(<span class="st">&quot;1.2&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will ask you to choose a folder on your computer. The full lab folder will be copied there. If you are using RStudio, the <code>.qmd</code> file should open automatically after copying.</p>
-</section>
-<section id="copy-a-lecture-folder" class="level2">
-<h2 class="anchored" data-anchor-id="copy-a-lecture-folder">Copy a lecture folder</h2>
-<p>For example, to copy the folder for Lecture 3.4:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_lecture</span>(<span class="st">&quot;3.4&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will ask you to choose a folder on your computer. The full lecture folder will be copied there.</p>
+<pre><code>use_lab(&quot;1.2&quot;)</code></pre>
+<p>This will ask you to choose a folder on your computer. The full lab folder will be copied there, and the <code>.qmd</code> file should open automatically in RStudio.</p>
 </section>
 <section id="copy-an-activity-folder" class="level2">
 <h2 class="anchored" data-anchor-id="copy-an-activity-folder">Copy an activity folder</h2>
-<p>For example, to copy the activity folder for Lecture 1.2:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_activity</span>(<span class="st">&quot;1.2&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will ask you to choose a folder on your computer. The full activity folder will be copied there.</p>
-<p>If the activity uses images or other supporting files, those files will be copied together with the <code>.qmd</code> file.</p>
+<p>For example, to copy the activity folder for Class 1.2:</p>
+<pre><code>use_activity(&quot;1.2&quot;)</code></pre>
+<p>This will ask you to choose a folder on your computer. The full activity folder will be copied there, and the <code>.qmd</code> file should open automatically in RStudio.</p>
+<p>If the activity includes images or other supporting files, those files will also be copied.</p>
 </section>
 <section id="important-notes" class="level2">
 <h2 class="anchored" data-anchor-id="important-notes">Important notes</h2>
 <p>Please work on the copied files, not the files inside the package.</p>
-<p>When you run a command such as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_activity</span>(<span class="st">&quot;1.2&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>you will choose where to save the folder. After that, edit the copied <code>.qmd</code> file in that folder.</p>
-<p>If you already have a folder with the same name, R will stop to avoid accidentally replacing your work. If you really want to replace the existing folder, you can use:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_activity</span>(<span class="st">&quot;1.2&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Use <code>overwrite = TRUE</code> carefully, because it will replace the existing copied folder.</p>
+<p>If a folder with the same name already exists, the package will stop to avoid accidentally replacing your work.</p>
+<p>If you want to replace the existing folder, you can use:</p>
+<pre><code>use_activity(&quot;1.2&quot;, overwrite = TRUE)</code></pre>
+<p><strong>Be careful:</strong> <code>overwrite = TRUE</code> will replace the existing folder and its contents, including any changes you have made.</p>
 </section>
 <section id="example-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="example-workflow">Example workflow</h2>
 <p>A typical workflow is:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dkustats101)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">use_activity</span>(<span class="st">&quot;1.2&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Then choose where to save the folder, open the copied <code>.qmd</code> file, and start working.</p>
+<pre><code>library(dkustats101)
+
+use_activity(&quot;1.2&quot;)</code></pre>
+<p>Then choose where to save the folder and start working on the copied <code>.qmd</code> file.</p>
 </section>
 <section id="troubleshooting" class="level2">
 <h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
 <section id="the-package-was-updated-but-i-still-see-the-old-version" class="level3">
 <h3 class="anchored" data-anchor-id="the-package-was-updated-but-i-still-see-the-old-version">The package was updated, but I still see the old version</h3>
-<p>If you reinstalled the package while it was already loaded in R, restart R and then load the package again:</p>
-<pre><code>library(dkustats101)</code></pre>
-<p>In RStudio, use:</p>
+<p>Restart R in RStudio using:</p>
 <p><strong>Session → Restart R</strong></p>
-<p>and then rerun your command.</p>
+<p>Then load the package again:</p>
+<pre><code>library(dkustats101)</code></pre>
+<p>Remember that updating the package does not automatically update folders you copied previously. To get the latest materials, copy the folder again to a new location or use <code>overwrite = TRUE</code> if you no longer need your previous work.</p>
 </section>
-<section id="installation-from-github-does-not-work" class="level3">
-<h3 class="anchored" data-anchor-id="installation-from-github-does-not-work">Installation from GitHub does not work</h3>
-<p>First, make sure you are connected to the internet and try the installation command again:</p>
-<pre><code>remotes::install_github(&quot;wjingyu066/dkustats101&quot;,upgrade = &quot;never&quot;)</code></pre>
-<p>If the installation is slow or fails because of network issues, try again on a different network or ask for help during class or office hours.</p>
+<section id="the-package-does-not-install" class="level3">
+<h3 class="anchored" data-anchor-id="the-package-does-not-install">The package does not install</h3>
+<p>Make sure you downloaded the correct <code>.tar.gz</code> file from Teams and did not unzip it.</p>
+<p>Try installing again using <strong>Tools → Install Packages… → Package Archive File</strong>.</p>
+<p>If you receive an error message, please ask for help during class or office hours.</p>
 </section>
 <section id="the-copied-file-does-not-open-automatically" class="level3">
 <h3 class="anchored" data-anchor-id="the-copied-file-does-not-open-automatically">The copied file does not open automatically</h3>
-<p>If you are using RStudio and the <code>.qmd</code> file does not open automatically, check the folder you selected. The copied course folder and its files should still be there.</p>
+<p>Make sure <code>rstudioapi</code> is installed:</p>
+<pre><code>install.packages(&quot;rstudioapi&quot;)</code></pre>
+<p>Then try copying the course materials again.</p>
+<p>If the <code>.qmd</code> file still does not open automatically, check the folder you selected. The copied files should still be there, and you can open the <code>.qmd</code> file manually in RStudio.</p>
 </section>
 </section>
 </section>

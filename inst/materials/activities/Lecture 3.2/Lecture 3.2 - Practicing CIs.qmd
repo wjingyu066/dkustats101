@@ -1,7 +1,8 @@
 ---
 title: "Lecture 3.2 - Practicing Confidence Intervals II"
 author: "Student"
-date: "4/14/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true

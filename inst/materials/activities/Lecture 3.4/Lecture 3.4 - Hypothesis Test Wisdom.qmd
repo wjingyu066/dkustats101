@@ -1,7 +1,8 @@
 ---
 title: "Lecture 3.4 - Hypothesis Testing Wisdom"
 author: "Student"
-date: "4/21/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true

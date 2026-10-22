@@ -1,7 +1,8 @@
 ---
 title: "Final class 4.3 - Article analysis"
 author: "Professor MacDonald"
-date: "4/30/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true

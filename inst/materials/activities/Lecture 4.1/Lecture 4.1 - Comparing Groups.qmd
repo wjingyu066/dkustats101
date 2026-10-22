@@ -1,7 +1,8 @@
 ---
 title: "Lecture 4.1 - Comparing groups"
 author: "Student"
-date: "4/23/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true

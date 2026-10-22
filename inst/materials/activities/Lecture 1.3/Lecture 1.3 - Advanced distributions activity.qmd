@@ -1,8 +1,9 @@
 ---
 title: "Lecture 1.3 - Advanced distributions activity"
-subtitle: "DKU Stats 101 Spring 2026 S4"
+subtitle: "DKU Stats 101 Fall 2026 S2"
 author: "Professor MacDonald"
-date: "3/24/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format: 
   html:
     embed-resources: true

@@ -1,7 +1,8 @@
 ---
 title: "Lecture 3.3 - Practicing Hypotheses Tests"
 author: "Student"
-date: "4/16/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true

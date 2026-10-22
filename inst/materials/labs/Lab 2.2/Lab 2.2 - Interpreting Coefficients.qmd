@@ -1,7 +1,8 @@
 ---
 title: "Lab 2.2 - Interpreting coefficients"
 author: "Student"
-date: "09/16/2026"
+date: today
+date-format: "MM/DD/YYYY"
 output:
   html_document:
     toc: true

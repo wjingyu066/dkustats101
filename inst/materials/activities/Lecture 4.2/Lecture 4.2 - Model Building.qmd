@@ -1,7 +1,8 @@
 ---
 title: "Lecture 4.2 - Model building activity"
 author: "Professor MacDonald"
-date: "4/26/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true

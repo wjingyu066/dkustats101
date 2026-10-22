@@ -1,6 +1,6 @@
 Package: dkustats101
 Title: Course Materials and Tools for DKU STATS 101
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Jingyu", "Wang", email = "wjingyu@umich.edu", role = c("aut", "cre")),
     person("Andrew", "MacDonald", role = c("aut", "ctb"))
@@ -10,6 +10,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 8.0.0
-lazyData: true
+LazyData: true
 Suggests:
-  rstudioapi
+    rstudioapi

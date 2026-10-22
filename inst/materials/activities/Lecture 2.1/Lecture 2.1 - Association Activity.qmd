@@ -1,7 +1,8 @@
 ---
 title: "Lecture 2.1 - Association activity"
 author: "Student"
-date: "3/26/2025"
+date: today
+date-format: "MM/DD/YYYY"
 format: 
   html:
     embed-resources: true

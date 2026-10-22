@@ -1,7 +1,8 @@
 ---
 title: "Lecture 2.2 - Simple regression activity"
 author: "Student"
-date: "3/31/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format: 
   html:
     embed-resources: true

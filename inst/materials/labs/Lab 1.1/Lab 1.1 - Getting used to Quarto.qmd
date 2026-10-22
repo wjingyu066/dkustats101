@@ -1,7 +1,8 @@
 ---
 title: "Introduction to Quarto"
 author: "Professor MacDonald"
-date: "08/26/2026"
+date: today
+date-format: "MM/DD/YYYY"
 format:
   html:
     embed-resources: true
@@ -16,7 +17,7 @@ library(tidyverse)
 
 Before getting started, load the `dkustats101` package in the Console and copy the Lab 1.1 materials:
 
-```r
+``` r
 library(dkustats101)
 
 use_lab("1.1")

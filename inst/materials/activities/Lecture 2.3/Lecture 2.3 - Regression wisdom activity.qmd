@@ -1,7 +1,8 @@
 ---
 title: "Lecture 2.3 - Developing regression wisdom" 
 author: "Student"
-date: "4/2/2025"
+date: today
+date-format: "MM/DD/YYYY"
 format: 
   html:
     embed-resources: true
