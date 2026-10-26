@@ -1,54 +1,43 @@
+
 # dkustats101
 
 This package provides course materials and helper functions for DKU STATS 101. Students can use this package to copy lab and activity folders to their own computer and work on the copied files directly.
 
 ## Installation
 
-### Step 1: Install rstudioapi
-
 Open RStudio and run the following code in the Console:
 
-```         
+```r
+install.packages("remotes")
 install.packages("rstudioapi")
+remotes::install_github("wjingyu066/dkustats101", upgrade = "never")
 ```
 
-You only need to do this once.
+You only need to install `remotes` and `rstudioapi` once.
 
-### Step 2: Download the course package
+Once installation is complete, load the package:
 
-Download the latest `dkustats101` `.tar.gz` file from Teams and save it to your computer.
-
-**Do not unzip the file.**
-
-### Step 3: Install the course package
-
-In RStudio:
-
-1.  Go to **Tools → Install Packages...**
-
-2.  Under **Install from**, select **Package Archive File (.zip; .tar.gz)**.
-
-3.  Click **Browse** and select the `.tar.gz` file you downloaded from Teams.
-
-4.  Click **Install**.
-
-Once installation is complete, run the following code in the Console:
-
-```         
+```r
 library(dkustats101)
 ```
 
 ## Updating the package
 
-If the course materials have been updated, download the latest `.tar.gz` file from Teams.
+If the course materials have been updated, run the following code in the Console:
 
-First, restart R in RStudio by going to:
+```r
+remotes::install_github("wjingyu066/dkustats101", force = TRUE, upgrade = "never")
+```
+
+After updating, restart R in RStudio by going to:
 
 **Session → Restart R**
 
-Then follow **Step 3** in the Installation section to install the updated package.
+Then load the package again:
 
-You do not need to reinstall `rstudioapi`.
+```r
+library(dkustats101)
+```
 
 Updating the package will not delete or change any files you have already copied to your computer.
 
@@ -56,7 +45,7 @@ Updating the package will not delete or change any files you have already copied
 
 Before using the course materials, load the package:
 
-```         
+```r
 library(dkustats101)
 ```
 
@@ -64,7 +53,7 @@ library(dkustats101)
 
 For example, to copy the folder for Lab 1.2:
 
-```         
+```r
 use_lab("1.2")
 ```
 
@@ -72,9 +61,9 @@ This will ask you to choose a folder on your computer. The full lab folder will 
 
 ## Copy an activity folder
 
-For example, to copy the activity folder for Class 1.2:
+For example, to copy the activity folder for Lecture 1.2:
 
-```         
+```r
 use_activity("1.2")
 ```
 
@@ -90,7 +79,7 @@ If a folder with the same name already exists, the package will stop to avoid ac
 
 If you want to replace the existing folder, you can use:
 
-```         
+```r
 use_activity("1.2", overwrite = TRUE)
 ```
 
@@ -100,7 +89,7 @@ use_activity("1.2", overwrite = TRUE)
 
 A typical workflow is:
 
-```         
+```r
 library(dkustats101)
 
 use_activity("1.2")
@@ -118,28 +107,29 @@ Restart R in RStudio using:
 
 Then load the package again:
 
-```         
+```r
 library(dkustats101)
 ```
 
 Remember that updating the package does not automatically update folders you copied previously. To get the latest materials, copy the folder again to a new location or use `overwrite = TRUE` if you no longer need your previous work.
 
-### The package does not install
+### Installation from GitHub does not work
 
-Make sure you downloaded the correct `.tar.gz` file from Teams and did not unzip it.
+Make sure you are connected to the internet and try the installation command again:
 
-Try installing again using **Tools → Install Packages... → Package Archive File**.
+```r
+remotes::install_github("wjingyu066/dkustats101", upgrade = "never")
+```
 
-If you receive an error message, please ask for help during class or office hours.
+If the installation is slow or fails because of network issues, please ask for help during class or office hours.
 
 ### The copied file does not open automatically
 
-Make sure `rstudioapi` is installed:
+Make sure you are running the code in RStudio and that `rstudioapi` is installed:
 
-```         
+```r
 install.packages("rstudioapi")
 ```
 
-Then try copying the course materials again.
-
 If the `.qmd` file still does not open automatically, check the folder you selected. The copied files should still be there, and you can open the `.qmd` file manually in RStudio.
+
