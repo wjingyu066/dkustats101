@@ -1,4 +1,3 @@
-
 # dkustats101
 
 This package provides course materials and helper functions for DKU STATS 101. Students can use this package to copy lab and activity folders to their own computer and work on the copied files directly.
@@ -8,12 +7,16 @@ This package provides course materials and helper functions for DKU STATS 101. S
 Open RStudio and run the following code in the Console:
 
 ```r
-install.packages("remotes")
-install.packages("rstudioapi")
-remotes::install_github("wjingyu066/dkustats101", upgrade = "never")
+install.packages(c("remotes", "git2r", "rstudioapi"))
+
+remotes::install_git(
+  "https://gitee.com/wjingyu066/dkustats101.git",
+  git = "git2r",
+  upgrade = "never"
+)
 ```
 
-You only need to install `remotes` and `rstudioapi` once.
+You only need to install `remotes`, `git2r`, and `rstudioapi` once.
 
 Once installation is complete, load the package:
 
@@ -26,7 +29,12 @@ library(dkustats101)
 If the course materials have been updated, run the following code in the Console:
 
 ```r
-remotes::install_github("wjingyu066/dkustats101", force = TRUE, upgrade = "never")
+remotes::install_git(
+  "https://gitee.com/wjingyu066/dkustats101.git",
+  git = "git2r",
+  force = TRUE,
+  upgrade = "never"
+)
 ```
 
 After updating, restart R in RStudio by going to:
@@ -113,15 +121,24 @@ library(dkustats101)
 
 Remember that updating the package does not automatically update folders you copied previously. To get the latest materials, copy the folder again to a new location or use `overwrite = TRUE` if you no longer need your previous work.
 
-### Installation from GitHub does not work
+### Installation from Gitee does not work
 
-Make sure you are connected to the internet and try the installation command again:
+Make sure you are connected to the internet.
+
+If the download is slow or fails, try connecting to Duke VPN and running the installation command again:
 
 ```r
-remotes::install_github("wjingyu066/dkustats101", upgrade = "never")
+remotes::install_git(
+  "https://gitee.com/wjingyu066/dkustats101.git",
+  git = "git2r",
+  upgrade = "never",
+  force = TRUE
+)
 ```
 
-If the installation is slow or fails because of network issues, please ask for help during class or office hours.
+This installation method does not require Git to be installed separately on your computer.
+
+If you still encounter problems, please ask for help during class or office hours.
 
 ### The copied file does not open automatically
 
@@ -132,4 +149,3 @@ install.packages("rstudioapi")
 ```
 
 If the `.qmd` file still does not open automatically, check the folder you selected. The copied files should still be there, and you can open the `.qmd` file manually in RStudio.
-
