@@ -2,218 +2,403 @@
 title: "Lecture 1.2 - Characteristics of distributions activity"
 subtitle: "DKU Stats 101 Fall 2026 Session 2"
 author: "Professor MacDonald"
-date: today
-date-format: "MM/DD/YYYY"
-format: 
+date: "10/28/2026"
+format:
   html:
     embed-resources: true
+    code-copy: true
+execute:
+  echo: true
 ---
 
 # Lecture 1.2 in-class activity - exploring distributions
 
 ## How to Make High-Quality Histograms
 
-> Taken from [STHDA guide](http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization) Additional resources: [geom_histogram documentation](https://ggplot2.tidyverse.org/reference/geom_histogram.html)
+> Adapted from the [STHDA guide](http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization). Additional resources: [histogram documentation](https://ggplot2.tidyverse.org/reference/geom_histogram.html) and [density-plot documentation](https://ggplot2.tidyverse.org/reference/geom_density.html).
+
+How evenly is internet access distributed around the world? What does a “typical” country's life expectancy or economic output look like?
+
+We will use **`AllCountries` from the `Lock5Data` R package**, a teaching dataset containing **217 countries and economies**. The fourth-edition version contains mostly **2023 data, or the most recently available year for each measure**, compiled from sources accessed in January 2025. It is a fixed teaching snapshot, not a live feed or a record of conditions today. The documentation does not identify a year for every individual value, so we should not describe all observations as being from exactly the same year.[^data]
+
+**Our unit of observation is a country or economy, not an individual person.** Some entries are territories rather than sovereign states. For brevity, the questions below refer to these observations as “countries.” Each country counts once in our graphs and averages, regardless of population size.
 
 ### Part 1: Setup
 
-First, we need to install a good-quality graphical display library:
+Install the packages **once**, using the RStudio Console. Reinstall `Lock5Data` if you already have an older version: earlier editions contain older observations and different columns. This activity uses **version 4.0.1 or later** of `Lock5Data`.[^package]
 
-1.  If you have not installed the `tidyverse` package, you can do so by typing `install.packages("tidyverse")` into the Console at the bottom of your RStudio terminal. Answer `yes` when prompted.
+```{r}
+#| eval: false
+install.packages(c("tidyverse", "Lock5Data"),
+                 repos = "https://cloud.r-project.org")
+```
 
-2.  Type `library(tidyverse)` into the Console after the installation has finished - this loads the package into memory
+The installation needs an internet connection. After installation, the dataset is stored in the package: there is no account, API key, separate data download, or live data connection to manage.
 
-Second, we need to open a basic R Script page to help you run your code
+Open **File > New File > R Script** in RStudio. Save your script and add the following code at the top. Run the examples in order; later examples use objects created earlier.
 
-![](newscript.png)
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+library(tidyverse)
+library(Lock5Data)
+
+data("AllCountries", package = "Lock5Data")
+
+# Select the columns used in this activity and give them shorter names.
+country_data <- as_tibble(AllCountries) %>%
+  transmute(
+    country = Country,
+    internet = Internet,
+    life_expectancy = LifeExpectancy,
+    gdp_per_capita = GDP,
+    population_millions = Population,
+    hdi_group = factor(HDIGroup,
+                       levels = c("Low", "Medium", "High", "Very High"))
+  )
+```
+
+The `%>%` symbol passes a dataset to the next step. `transmute()` selects or creates columns. You can use this preparation code as given; we will study data manipulation in more detail later.
+
+Here are the variables we will use. Their definitions follow the package documentation.[^data]
+
+| Variable in our script | Meaning |
+|:---|:---|
+| `country` | Country or economy name. |
+| `internet` | Percentage of the population with internet access, as labelled in the teaching dataset. Values are on a 0–100 scale. |
+| `life_expectancy` | Life expectancy, in years. |
+| `gdp_per_capita` | Gross domestic product per person, in U.S. dollars. This measures economic output per person, not an individual's salary. |
+| `population_millions` | Population, in millions; included to help us think about weighting. |
+| `hdi_group` | Human Development Index category: Low, Medium, High, or Very High. |
+
+Type `View(country_data)` to inspect the data, or `?AllCountries` to read its documentation. R is case-sensitive: `AllCountries` and `allcountries` are not the same name.
+
+**Missing data are not zero.** R uses `NA` for missing values. Check how much information is available before drawing conclusions:
+
+```{r}
+country_data %>%
+  summarize(
+    total_rows = n(),
+    internet_missing = sum(is.na(internet)),
+    life_expectancy_missing = sum(is.na(life_expectancy)),
+    gdp_missing = sum(is.na(gdp_per_capita)),
+    hdi_group_missing = sum(is.na(hdi_group))
+  )
+
+# Keep all countries with an observed internet value for Parts 2 and 3.
+internet_data <- country_data %>%
+  filter(!is.na(internet))
+
+nrow(internet_data)
+```
+
+`is.na()` identifies missing values; `!` means “not.” We remove rows only when the variable needed for that analysis is missing. We do **not** require complete information on all 29 original variables. No missing values are replaced or imputed.
 
 ### Part 2: Basic Histograms
 
-`ggplot` is the basic graphing function that you will use over and over again.
+`ggplot()` is the basic graphing function you will use repeatedly. Let's examine **internet access across countries**:
 
-We can create a basic histogram of the miles per gallon (a measure of fuel efficiency in automobiles) with:
-
-```
-ggplot(mtcars, aes(x=mpg)) + 
+```{r}
+#| message: false
+#| warning: false
+ggplot(internet_data, aes(x = internet)) +
   geom_histogram()
 ```
 
-The `ggplot` function has three components:
+The graph has three main components:
 
-1.  Dataset being used (in this case, the built-in test dataset for R called `mtcars`)
-2.  The data you intend to display (named inside of the `aes()` part)
-3.  The type of graphical display you wish to make (appended after the `ggplot()` function with a `+` sign)
+1. The dataset being used (`internet_data`).
+2. The variable displayed, specified inside `aes()` (`internet`).
+3. The kind of graph, added with a `+` (`geom_histogram()`).
 
-However, the default `ggplot` settings often are not so great. In particular, the bindwidth for this histogram is not that well chosen.
+The default settings are not always ideal. In particular, the **binwidth** changes how much detail the histogram shows. Let's make each bin **5 percentage points** wide:
 
-To alter the binwidth, we can set each bin to equal a set number of mpg (miles per gallon):
-
-```
-ggplot(mtcars, aes(x=mpg)) + 
-  geom_histogram(binwidth=1)
+```{r}
+ggplot(internet_data, aes(x = internet)) +
+  geom_histogram(binwidth = 5, boundary = 0)
 ```
 
-> Copy the above code to your R Script document. You can highlight the code and click on the Run button on the upper right to run the code. For the rest of the examples in the document, add them as lines to your R script.
+`boundary = 0` aligns the bin boundaries with multiples of the binwidth. A change from 60% to 65% is **5 percentage points**, not a 5% relative increase.
 
-![](runcode.png)
+> Copy the code into your R script. Highlight it and select **Run**, or press **Ctrl + Enter** on Windows/Linux or **Command + Enter** on macOS. Add the later examples to the same script.
 
-> Play around with the binwidth, try to find something that you feel accurately captures the distribution of the data.
+> Try binwidths of `2`, `5`, `10`, and `20` percentage points. Which gives the clearest picture of the distribution?
 
-1.  What is the shape, center, and spread of this data? Are there any outliers?
-2.  How does changing the binwidth affect your answers to these questions?
+1. Describe the **shape, center, and spread** of internet access across countries. Are there possible outliers?
+2. How does changing the binwidth affect your answers? What information disappears with very wide bins?
+3. Does a bar count countries or people? Does a value of 80% mean that every person in that country has the same access?
 
-To properly label the graph, we add the following amendments:
+We can add labels:
 
+```{r}
+ggplot(internet_data, aes(x = internet)) +
+  geom_histogram(binwidth = 5, boundary = 0) +
+  labs(
+    x = "Internet access (% of population)",
+    y = "Number of countries/economies",
+    title = "Internet access around the world",
+    subtitle = "AllCountries teaching snapshot: mostly 2023 or latest available"
+  )
 ```
-ggplot(mtcars, aes(x=mpg)) + 
-  geom_histogram() + 
-  labs(x="MPG", y="Count", title="MPG of the cars in this dataset")
-```
 
-You can see here that additional layers on top of the graph are created with each `+` sign. So the first part of the `ggplot()` function specifies the data to be used and the additional `+` each create a layer on top of the graph.
+Each `+` adds another layer to the graph.
 
 ### Part 3: Adding layers to the histogram
 
-Now maybe we want to add a mean line. We can do so with the following command:
+Let's add a line showing the **mean of the country percentages**. First, save the plot as an object called `p`:
 
-```
-p <- ggplot(mtcars, aes(x=mpg)) +  
-      geom_histogram() + 
-      labs(x="MPG", y="Count", title="MPG of the cars in this dataset")
-```
+```{r}
+p <- ggplot(internet_data, aes(x = internet)) +
+  geom_histogram(binwidth = 5, boundary = 0) +
+  labs(
+    x = "Internet access (% of population)",
+    y = "Number of countries/economies",
+    title = "Internet access around the world",
+    subtitle = "AllCountries teaching snapshot: mostly 2023 or latest available"
+  )
 
-In this case, we are saving the output of the graph to a new variable, called `p`
-
-You can display your graph by typing `p` in the Console
-
-Now we can add a vertical line at the mean of `mpg` with the following command:
-
-```
-p + geom_vline(aes(xintercept=mean(mpg)), color="red", linetype="dashed", linewidth=1)
+p
 ```
 
-Or we can change the histogram type to be a density plot instead of a count plot:
+To add a vertical dashed line at the mean:
 
-```
-p <- ggplot(mtcars, aes(x=mpg)) + 
-      geom_histogram(aes(y=after_stat(density))) + 
-      labs(x="MPG", y="Density", title="MPG of the cars in this dataset")
-```
-
-Note that this overwrites the previous value of `p`
-
-> Think about the difference between a density plot and the previous plots we have produced - note the change in the $y$ axis
-
-You can then overlay a density layer to get another view of the distribution of the data:
-
-```
-p + geom_density(alpha=.2, fill="#FF6666")
+```{r}
+p + geom_vline(
+  xintercept = mean(internet_data$internet),
+  color = "red", linetype = "dashed", linewidth = 1
+)
 ```
 
-### Part 4: Dividing the histogram by a categorical variable
+The `$` selects a column from a dataset. This mean gives equal weight to each country with an observed value. It is **not** the percentage of the world's people with internet access.
 
-We can also differentiate `mpg` by a categorical variable (number of cylinders in a car) via the following steps:
+Now change the histogram's vertical axis from **counts** to **density**:
 
-1.  First, we need to let R know that `cyl` is a categorical variable
+```{r}
+p <- ggplot(internet_data, aes(x = internet)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 binwidth = 5, boundary = 0) +
+  labs(
+    x = "Internet access (% of population)",
+    y = "Density",
+    title = "Distribution of country internet-access percentages"
+  )
 
-```
-mtcars <- mtcars %>% 
- mutate(cyl = factor(cyl))
-```
-
-R generally does not know if a variable is a categorical one or not unless you tell it directly. `factor()` is the method of converting a quantitative variable to a categorical variable.
-
-2.  Then we can create histograms that vary by cylinder:
-
-```
-ggplot(mtcars, aes(x=mpg, color=cyl))  +  
-  geom_histogram(fill="white") + 
-  labs(x="MPG", y="Count", title="MPG of cars in the MPG Dataset")
+p
 ```
 
-Here the `color` aspect of `aes()` indicates that the color should be changed according to each group of the variable `cylinder`
+This overwrites the previous version of `p`. The **total area** of the density histogram's bars is 1. A bar's area is its height multiplied by its width; its height alone is not the proportion of countries in that interval.
 
-> Play around with the binwidth and add a density layer. How would you interpret this new information?
+Overlay a smooth density curve:
 
-3.  Next we want to create group means for each cylinder (i.e. what is the mean weight of each category of cylinders). To do so, we need the following commands (don't worry about understanding it, we'll learn more about this later):
-
-```         
-cyl.means <- mtcars %>% 
-  group_by(cyl) %>% 
-  summarize(grp.mean = mean(mpg))
+```{r}
+p + geom_density(bounds = c(0, 100), alpha = 0.2, fill = "steelblue")
 ```
 
-When you type `cyl.means` in the console, you should get the following output:
+`bounds = c(0, 100)` tells the smoother that percentages cannot be below 0 or above 100. The curve is a summary of the distribution, not additional data.
 
-```
-  cyl grp.mean
-1   4 26.66364
-2   6 19.74286
-3   8 15.10000
+> How does the curve help you see the overall shape? What details might it smooth away? What does the 100% upper bound imply about the possible shape?
+
+### Part 4: Comparing distributions across categories
+
+Does internet access differ across **Human Development Index (HDI) groups**? HDI summarizes health, education, and income. Its categories are useful for description but do not capture every aspect of a society.[^hdi]
+
+We used `factor()` in the setup to tell R to treat `hdi_group` as categorical and to display its levels in a meaningful order. For this comparison, we also need an observed group label:
+
+```{r}
+internet_by_hdi <- internet_data %>%
+  filter(!is.na(hdi_group))
+
+# Check group sizes and how many otherwise usable rows lack a group label.
+internet_by_hdi %>% count(hdi_group)
+nrow(internet_data) - nrow(internet_by_hdi)
 ```
 
-Now we can add a mean line to each of the categories:
+We can color the outlines of histogram bars by group:
 
+```{r}
+ggplot(internet_by_hdi, aes(x = internet, color = hdi_group)) +
+  geom_histogram(binwidth = 5, boundary = 0,
+                 fill = NA, position = "identity") +
+  labs(
+    x = "Internet access (% of population)",
+    y = "Number of countries/economies",
+    title = "Internet access by HDI group",
+    color = "HDI group"
+  )
 ```
-ggplot(mtcars, aes(x=mpg, color=cyl))  + 
-  geom_histogram(fill="white") + 
-  labs(x="MPG", y="Count", title="MPG of cars in the MPG Dataset") + 
-  geom_vline(data=cyl.means, aes(xintercept=grp.mean, color=cyl), linetype="dashed")
+
+`position = "identity"` overlays the groups instead of stacking them. Because overlapping bars can be hard to interpret, a clearer approach is to create a **separate histogram for each group** with `facet_wrap()`:
+
+```{r}
+ggplot(internet_by_hdi, aes(x = internet)) +
+  geom_histogram(binwidth = 5, boundary = 0,
+                 fill = "steelblue", color = "white") +
+  facet_wrap(~ hdi_group, ncol = 2) +
+  labs(
+    x = "Internet access (% of population)",
+    y = "Number of countries/economies",
+    title = "Internet access by HDI group"
+  )
 ```
+
+The panels use the same axes and bin boundaries. Group sizes differ, so a taller bar does not necessarily indicate a larger **proportion** of that group. To compare relative shapes, try adding `aes(y = after_stat(density))` inside `geom_histogram()` and change the y-axis label to `"Density"`.
+
+Next, calculate the mean internet-access percentage in each group. We will learn these data-manipulation commands in more detail later.
+
+```{r}
+hdi_means <- internet_by_hdi %>%
+  group_by(hdi_group) %>%
+  summarize(
+    n_countries = n(),
+    grp_mean = mean(internet),
+    .groups = "drop"
+  )
+
+hdi_means
+```
+
+Add a separate dashed mean line to each group histogram:
+
+```{r}
+ggplot(internet_by_hdi, aes(x = internet)) +
+  geom_histogram(binwidth = 5, boundary = 0,
+                 fill = "steelblue", color = "white") +
+  facet_wrap(~ hdi_group, ncol = 2) +
+  geom_vline(
+    data = hdi_means,
+    aes(xintercept = grp_mean),
+    color = "red", linetype = "dashed", linewidth = 1
+  ) +
+  labs(
+    x = "Internet access (% of population)",
+    y = "Number of countries/economies",
+    title = "Internet access by HDI group, with group means"
+  )
+```
+
+1. Which group has the highest mean? Does it also contain the country with the highest individual value? Allow for ties.
+2. Do the group distributions overlap? How much variation remains within each group?
+3. Why can't these plots establish that a higher HDI **causes** greater internet access, or the reverse?
 
 ## Thinking about distributions of variables in this dataset
 
-To learn more about each of the variables in the dataset, you can examine the dataset (and any function documentation in R) by entering `?mtcars`
+Two other variables are **`gdp_per_capita`** (economic output per person, in U.S. dollars) and **`life_expectancy`** (years). GDP per capita is not a typical person's income, and a country-level life expectancy does not tell us how long a particular individual will live.
 
-### Estimating the basic characteristics of the distribution
+### Estimating basic characteristics of the distributions
 
-For the variables `hp` and `wt`, estimate or guess the shape, center and spread of the variables before examining your data.
+**Before making the next graphs or calculating summary statistics**, predict the shape, center, and spread for `gdp_per_capita` and `life_expectancy`:
 
--   Shape
--   Center
--   Spread
+- **Shape:** Symmetric, skewed left, skewed right, or possibly multimodal?
+- **Center:** What would you guess is a typical country value?
+- **Spread:** How different might countries be from one another? Include units.
 
-### Further refining your mental model of the distributions
+Think about why these two social indicators might have different distribution shapes.
 
-Using the commands listed below, develop a set of measures of the distribution of the two variables. Based on your results that you generate, more fully describe and estimate what you expect the shape of the distribution to be.
+### Further refining your mental model of distributions
 
--   Shape
-    -   Skew - can estimate by comparing mean and median
-    -   Modes 
--   Center
-    -   Mean 
-    -   Median 
--   Spread
-    -   Range 
-    -   IQR 
-    -   Standard deviation 
+Calculate measures for **both** variables. Compare the mean and median for clues about skew, but use a histogram to check the shape. Examine the minimum, maximum, range, IQR, and standard deviation to describe spread.
 
-To find these characteristics, you can use the following commands:
+`na.rm = TRUE` excludes missing values from each calculation. The observed and missing counts show how many countries contribute to each summary. The final `pivot_longer()` line simply puts the results into a readable two-column table.
 
+```{r}
+gdp_summary <- country_data %>%
+  summarize(
+    n_observed = sum(!is.na(gdp_per_capita)),
+    n_missing = sum(is.na(gdp_per_capita)),
+    mean = mean(gdp_per_capita, na.rm = TRUE),
+    median = median(gdp_per_capita, na.rm = TRUE),
+    minimum = min(gdp_per_capita, na.rm = TRUE),
+    maximum = max(gdp_per_capita, na.rm = TRUE),
+    range = max(gdp_per_capita, na.rm = TRUE) -
+            min(gdp_per_capita, na.rm = TRUE),
+    IQR = IQR(gdp_per_capita, na.rm = TRUE),
+    sd = sd(gdp_per_capita, na.rm = TRUE)
+  ) %>%
+  pivot_longer(everything(), names_to = "statistic", values_to = "value")
+
+gdp_summary
 ```
-mt.cars.summary <- mtcars %>% 
-  summarize(mean.mpg = mean(mpg),
-            median.mpg = median(mpg),
-            min.mpg = min(mpg),
-            max.mpg = max(mpg),
-            IQR.mpg = IQR(mpg),
-            sd.mpg = sd(mpg))
+
+```{r}
+life_summary <- country_data %>%
+  summarize(
+    n_observed = sum(!is.na(life_expectancy)),
+    n_missing = sum(is.na(life_expectancy)),
+    mean = mean(life_expectancy, na.rm = TRUE),
+    median = median(life_expectancy, na.rm = TRUE),
+    minimum = min(life_expectancy, na.rm = TRUE),
+    maximum = max(life_expectancy, na.rm = TRUE),
+    range = max(life_expectancy, na.rm = TRUE) -
+            min(life_expectancy, na.rm = TRUE),
+    IQR = IQR(life_expectancy, na.rm = TRUE),
+    sd = sd(life_expectancy, na.rm = TRUE)
+  ) %>%
+  pivot_longer(everything(), names_to = "statistic", values_to = "value")
+
+life_summary
 ```
 
-To find the mode, you can type:
+To examine repeated values (potential modes), use `count()` and sort by frequency:
 
+```{r}
+gdp_counts <- country_data %>%
+  filter(!is.na(gdp_per_capita)) %>%
+  count(gdp_per_capita, sort = TRUE)
+
+life_counts <- country_data %>%
+  filter(!is.na(life_expectancy)) %>%
+  count(life_expectancy, sort = TRUE)
+
+gdp_counts
+life_counts
 ```
-mt.cars.counts <- mtcars %>% 
-  count(mpg) %>% 
-  arrange(desc(n))
-```
+
+> For variables with many different numeric values, the most frequently observed **exact** value may not be informative. Recorded values may also be rounded. Use histograms to look for peaks or clusters; do not use R's `mode()` function to find a statistical mode.
 
 ### Checking your work
 
-Next, create some histograms to assess whether you are correct or not.
+Create histograms of `gdp_per_capita` and `life_expectancy`. The code below excludes missing observations from each graph separately, matching its summary table:
 
-Also think about:
+```{r}
+ggplot(filter(country_data, !is.na(gdp_per_capita)),
+       aes(x = gdp_per_capita)) +
+  geom_histogram(binwidth = 5000, boundary = 0,
+                 fill = "steelblue", color = "white") +
+  labs(
+    x = "GDP per capita (US dollars)", y = "Number of countries/economies",
+    title = "Economic output per person across countries",
+    subtitle = "AllCountries teaching snapshot: mostly 2023 or latest available"
+  )
 
-1.  Why did your estimates vary from what you see in the histogram? What features of the distribution caused this discrepancy?
-2.  Do you think either of these variables meaningfully vary in their distribution by one of the categorical variables? Why or why not?
-3.  Do you see any outliers? Would either of these variables benefit from reexpressions?
+ggplot(filter(country_data, !is.na(life_expectancy)),
+       aes(x = life_expectancy)) +
+  geom_histogram(binwidth = 2, boundary = 0,
+                 fill = "steelblue", color = "white") +
+  labs(
+    x = "Life expectancy (years)", y = "Number of countries/economies",
+    title = "Life expectancy across countries",
+    subtitle = "AllCountries teaching snapshot: mostly 2023 or latest available"
+  )
+```
+
+Consider the following questions:
+
+1. How accurate were your initial guesses about shape, center, and spread? What features surprised you?
+2. For **each variable**, compare its mean and median. Which would you use to describe a typical country, and why? Do not compare a dollar gap directly with a gap measured in years.
+3. Do you see possible outliers? How might they affect the mean and standard deviation? Would an unusual value necessarily be a recording error?
+4. Could a log transformation help display GDP per capita if it is strongly right-skewed? Check that values are positive before using a log. What would become harder to interpret?
+5. Would an unweighted mean of country internet-access percentages equal the percentage for all the world's people? What additional information would a population-weighted calculation require?
+6. Which countries are missing a value? Could missing observations, different measurement years, or measurement differences affect our conclusions? What can a single snapshot **not** tell us about change over time?
+
+**Optional group comparison:** Repeat the life-expectancy histogram using `facet_wrap(~ hdi_group)`, excluding missing group labels. Interpret the result cautiously: **life expectancy is itself a component of HDI**, and income is another component. Such group differences are not independent evidence that HDI causes health or economic outcomes.[^hdi]
+
+**Exit question:** In one or two sentences, explain why the shape of a distribution matters when deciding whether the mean or median better summarizes a social science variable. State whether your conclusion describes countries or individuals.
+
+## Data sources and documentation
+
+[^data]: Robin Lock, *Lock5Data*, fourth-edition `AllCountries` dataset. The [package reference manual](https://cran.r-project.org/web/packages/Lock5Data/refman/Lock5Data.html) documents 217 observations and 29 variables, mostly 2023 or the most recently available values, with sources accessed in January 2025. Sources include the World Bank, U.S. Energy Information Administration, and United Nations Human Development Report. The [textbook's fourth-edition data page](https://www.lock5stat.com/datapage4e.html) also provides the data in several formats.
+
+[^package]: [CRAN package page for Lock5Data](https://cran.r-project.org/package=Lock5Data). Version 4.0.1 was published on January 8, 2026. The package publication date is **not** the observation year. This activity uses the fourth-edition `AllCountries`, not `AllCountries1e`, `AllCountries2e`, or `AllCountries3e`.
+
+[^hdi]: United Nations Development Programme, [Human Development Index](https://hdr.undp.org/data-center/human-development-index). HDI combines life expectancy, schooling, and gross national income per capita. It does not measure every dimension of human development.
