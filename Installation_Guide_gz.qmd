@@ -23,7 +23,7 @@ You only need to do this once.
 
 ### Step 2: Download the course package
 
-Download the latest `dkustats101` `.tar.gz` file from Teams and save it to your computer.
+Download the latest `dkustats101.tar.gz` file from Teams and save it to your computer.
 
 **Do not unzip the file.**
 
